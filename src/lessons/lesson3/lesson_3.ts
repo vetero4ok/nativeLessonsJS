@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 console.log('lesson 3');
 
 // Event loop
@@ -92,9 +94,77 @@ console.log('lesson 3');
 // some code
 
 
-
 //Promise.reject()
 //Promise.resolve()
+let payload = {
+    id: 101,
+    title: 'foo',
+    body: 'bar',
+    userId: 1
+}
+let payload1 = {
+    id: 1,
+    title: 'foo',
+    body: 'bar',
+    userId: 1
+}
+const instance = axios.create({
+    baseURL: 'https://jsonplaceholder.typicode.com'
+});
+const API = {
+    getResourcePost1: () => {
+        return instance.get(`/posts/1`)
+    },
+    getResourcePosts: () => {
+        return instance.get(`/posts`)
+    },
+    getResourcePostsUser1Comments: () => {
+        return instance.get(`/posts/1/comments`)
+    },
+    getResourcePostsUser1Comment1: () => {
+        return instance.get(`/comments?postId=1`)
+    },
+    createPostsUser: () => {
+        return instance.post(`/posts`,payload)
+    },
+    updatePostsUser1: () => {
+        return instance.put(`/posts/1`,payload1)
+    },
+    deletePostsUser1: () => {
+        return instance.delete(`/posts/1`)
+    },
+
+};
+
+// API.getResourcePosts()
+//     .then(res => {
+//         console.log(res)
+//         return res
+//     })
+//     .then(res => console.log(res.data))
+
+// API.getResourcePost1()
+//     .then((res) => {
+//         console.log(res)
+//     return res
+//     })
+//     .then((res)=>console.log(res.data))
+//
+// API.getResourcePostsUser1Comments()
+//     .then(res => console.log(res.data))
+//
+// API.getResourcePostsUser1Comment1()
+//     .then(res => console.log(res.data))
+//
+// API.createPostsUser()
+//     .then(res => console.log(res))
+
+// API.updatePostsUser1()
+//     .then(res => console.log(res))
+
+// API.deletePostsUser1().then(res => console.log(res))
+
 
 // just a plug
-export default ()=>{};
+export default () => {
+};
