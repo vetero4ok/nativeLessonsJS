@@ -1,0 +1,66 @@
+.mainContainer {
+    width: auto;
+    display: flex;
+    justify-content: space-around;
+}
+
+.searchContainer {
+    width: 350px;
+    height: 350px;
+    display: flex;
+    flex-direction: column;
+    border: 3px solid #c3fafa;
+    padding: 10px;
+    background: rgba(252, 251, 251, 0.6);
+    border-radius: 1em;
+
+}
+
+button {
+    color: #fff;
+    background-color: #45d1ea;
+    border: none;
+    outline: 2px solid #e7e7e7;
+    height: 30px;
+    font-family: 'Oswald', sans-serif;
+}
+
+input[type="text"] {
+    background-color: #f3f3f3;
+    border: 1px solid #e7e7e7;
+    height: 30px;
+    color: #b2b2b2;
+    padding: 0 10px;
+    vertical-align: top;
+}
+
+li {
+    list-style-type: none; /* Убираем маркеры */
+
+}
+
+ul {
+    /*margin-left: 0; !* Отступ слева в браузере IE и Opera *!*/
+    /*padding-left: 0; !* Отступ слева в браузере Firefox, Safari, Chrome *!*/
+    padding: 0;
+    margin: 0;
+}
+
+li.figure {
+    float: right;
+    width: 100%;
+    border: thin silver solid;
+    margin: 0.5em;
+    padding: 0.5em;
+    text-align: center;
+    font-style: italic;
+    font-size: smaller;
+    text-indent: 0;
+}
+
+.posterContainer {
+    width: 450px;
+    height: auto;
+    display: flex;
+
+}

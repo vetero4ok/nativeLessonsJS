@@ -12,7 +12,8 @@ const API = {
     },
     searchFilmsByType: (title: string, type: string) => {
         return axiosInstance.get(`${key}&s=${title}&type=${type}`)
-    }
+    },
+
 };
 
 
