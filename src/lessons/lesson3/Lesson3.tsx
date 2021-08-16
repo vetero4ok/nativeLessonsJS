@@ -8,8 +8,9 @@ import {PosterComponents} from './PosterComponents';
 const Lesson3 = () => {
     const [searchName, setSearchName] = useState('');
     const [searchResult, setSearchResult] = useState<Array<any>>([]);
-    const [searchNameByType, setSearchNameByType] = useState('');
-    const [searchResultByType, setSearchResultByType] = useState<Array<any>>([]);
+    // const [searchNameByType, setSearchNameByType] = useState('');
+    //const [searchResultByType, setSearchResultByType] = useState<Array<any>>([]);
+    const [year, setYear] = useState<string>('')
     const [error, setError] = useState<string>('Start to search files!')
     const searchFilm = () => {
         API.searchFilmsByTitle(searchName)
@@ -18,15 +19,10 @@ const Lesson3 = () => {
                 const {Response, Search, Error} = data;
                 if (Response === 'True') {
                     setSearchResult(Search);
-                    //    console.log(data, 'error')
-
                 } else {
-                    setSearchResult([]);
                     setError(Error)
-                    console.log(data, 'error')
                 }
             })
-
     };
 
     // const searchFilm = async () => {
@@ -47,38 +43,58 @@ const Lesson3 = () => {
     // }
     const searchByType = (e: React.MouseEvent<HTMLButtonElement>) => {
         const type: string = e.currentTarget.dataset.t ? e.currentTarget.dataset.t : '';
-        API.searchFilmsByType(searchNameByType, type)
+        API.searchFilmsByType(searchName, type)
             .then(({data}) => {
                 console.log(data);
                 const {Search, Response, Error} = data;
                 if (Response === 'True') {
-                    // setSearchResultByType(JSON.stringify(Search))
-                    setSearchResultByType(Search)
+                    setSearchResult(Search)
                 } else setError(Error)
-                //setSearchResultByType(Error)
+            })
+    }
+    const searchByYear = () => {
+        API.searchFilmByYear(searchName, year)
+            .then(({data}) => {
+                console.log(data);
+                const {Response, Search, Error} = data;
+                if (Response === 'True') {
+                    setSearchResult(Search);
+                } else {
+                    setSearchResult([]);
+                    setError(Error)
+                }
             })
     }
 
     return (
         <div className={'mainContainer'}>
             <div className={'searchContainer'}>
-                <h1>Promises</h1>
+                <h2>Promises</h2>
                 <div>
-                    <h4><p>Search by name:</p></h4>
-                    <input type="text" value={searchName} onChange={(e) => setSearchName(e.currentTarget.value)}/>
-
-                    <button onClick={searchFilm}>Search</button>
+                    <input type="text"
+                           placeholder={'Title'}
+                           value={searchName} onChange={(e) =>
+                        setSearchName(e.currentTarget.value)}/>
+                    <input
+                        type="text"
+                        placeholder={'Year'}
+                        style={{width: '60px', marginLeft: '10px'}} value={year}
+                        onChange={(e) =>
+                            setYear(e.currentTarget.value)}/>
                 </div>
                 <div>
-                    <h4><p>Search by type:</p></h4>
-                    <input type="text" value={searchNameByType}
-                           onChange={(e) => setSearchNameByType(e.currentTarget.value)}/>
-
+                    <p>Search by name:</p>
+                    <button onClick={searchFilm}>Search</button>
+                    <button onClick={searchByYear}>Search + Year</button>
+                    <p>Search by type:</p>
                     <button onClick={searchByType} data-t="movie">Movie</button>
                     <button onClick={searchByType} data-t="series">Series</button>
 
+
                 </div>
                 <br/>
+
+
             </div>
             <div className={'posterContainer'}>
                 <PosterComponents
