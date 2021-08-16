@@ -62,5 +62,18 @@ li.figure {
     width: 450px;
     height: auto;
     display: flex;
+    justify-content: space-between;
 
+}
+.error{
+    width: 350px;
+    height: 350px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border: 3px solid #c3fafa;
+    padding: 10px;
+    background: rgba(252, 251, 251, 0.6);
+    border-radius: 1em;
 }
