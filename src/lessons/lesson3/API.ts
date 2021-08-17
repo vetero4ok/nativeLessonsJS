@@ -7,16 +7,18 @@ const key = '?apikey=f573cf9c';
 const axiosInstance = axios.create(configOMB);
 
 const API = {
-    searchFilmsByTitle: (title: string) => {
+    searchFilmsByTitle: (title: string,) => {
         return axiosInstance.get(`${key}&s=${title}`)
     },
     searchFilmsByType: (title: string, type: string) => {
         return axiosInstance.get(`${key}&s=${title}&type=${type}`)
     },
-    searchFilmByYear: (title: string,year:string)=> {
+    searchFilmByYear: (title: string, year: string) => {
         return axiosInstance.get(`${key}&s=${title}}&y=${year}`)
     },
-
+    searchFilmsPage: (title: string,page:string) => {
+        return axiosInstance.get(`${key}&s=${title}&page=${page}`)
+    }
 };
 
 

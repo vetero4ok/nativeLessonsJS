@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, MouseEvent} from 'react';
 import API from './API';
 import './lesson_3';
 import './les3.css';
@@ -12,11 +12,14 @@ const Lesson3 = () => {
     //const [searchResultByType, setSearchResultByType] = useState<Array<any>>([]);
     const [year, setYear] = useState<string>('')
     const [error, setError] = useState<string>('Start to search files!')
+    const [totalResults, setTotalResults] = useState<string>('')
+
     const searchFilm = () => {
         API.searchFilmsByTitle(searchName)
             .then(({data}) => {
-                console.log(data);
-                const {Response, Search, Error} = data;
+                //console.log(data);
+                const {Response, Search, Error, totalResults} = data;
+                setTotalResults(totalResults)
                 if (Response === 'True') {
                     setSearchResult(Search);
                 } else {
@@ -46,7 +49,8 @@ const Lesson3 = () => {
         API.searchFilmsByType(searchName, type)
             .then(({data}) => {
                 console.log(data);
-                const {Search, Response, Error} = data;
+                const {Response, Search, Error, totalResults} = data;
+                setTotalResults(totalResults)
                 if (Response === 'True') {
                     setSearchResult(Search)
                 } else setError(Error)
@@ -56,7 +60,8 @@ const Lesson3 = () => {
         API.searchFilmByYear(searchName, year)
             .then(({data}) => {
                 console.log(data);
-                const {Response, Search, Error} = data;
+                const {Response, Search, Error, totalResults} = data;
+                setTotalResults(totalResults)
                 if (Response === 'True') {
                     setSearchResult(Search);
                 } else {
@@ -64,6 +69,24 @@ const Lesson3 = () => {
                     setError(Error)
                 }
             })
+    }
+    const onPageChanged = (page: number) => {
+        let pageToString = String(page)
+        API.searchFilmsPage(searchName, pageToString)
+            .then(({data}) => {
+                const {Response, Search, Error, totalResults} = data;
+                setTotalResults(totalResults)
+                if (Response === 'True') {
+                    setSearchResult(Search);
+                } else {
+                    setError(Error)
+                }
+            })
+    }
+    let pagesCount = Math.ceil((+totalResults) / 10)
+    let pages = [];
+    for (let i = 1; i <= pagesCount; i++) {
+        pages.push(i);
     }
 
     return (
@@ -90,10 +113,21 @@ const Lesson3 = () => {
                     <button onClick={searchByType} data-t="movie">Movie</button>
                     <button onClick={searchByType} data-t="series">Series</button>
 
-
                 </div>
                 <br/>
+                <div>
+                    {
+                        pages.map((p, index) => {
+                            return <span
+                                key={index}
+                                onClick={(e: MouseEvent<HTMLInputElement>) => {
+                                    onPageChanged(p)
+                                }}
+                            >{p}</span>
 
+                        })
+                    }
+                </div>
 
             </div>
             <div className={'posterContainer'}>
