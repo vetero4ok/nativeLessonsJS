@@ -1,15 +1,14 @@
-import React, {useState, MouseEvent} from 'react';
+import React, {useState} from 'react';
 import API from './API';
 import './lesson_3';
 import './les3.css';
 import {PosterComponents} from './PosterComponents';
+import {Pagination} from './Pagination';
 
 
 const Lesson3 = () => {
     const [searchName, setSearchName] = useState('');
     const [searchResult, setSearchResult] = useState<Array<any>>([]);
-    // const [searchNameByType, setSearchNameByType] = useState('');
-    //const [searchResultByType, setSearchResultByType] = useState<Array<any>>([]);
     const [year, setYear] = useState<string>('')
     const [error, setError] = useState<string>('Start to search files!')
     const [totalResults, setTotalResults] = useState<string>('')
@@ -17,7 +16,7 @@ const Lesson3 = () => {
     const searchFilm = () => {
         API.searchFilmsByTitle(searchName)
             .then(({data}) => {
-                //console.log(data);
+              //  console.log(data, 'searchFilm');
                 const {Response, Search, Error, totalResults} = data;
                 setTotalResults(totalResults)
                 if (Response === 'True') {
@@ -28,27 +27,11 @@ const Lesson3 = () => {
             })
     };
 
-    // const searchFilm = async () => {
-    //     try {
-    //         const {data} = await API.searchFilmsByTitle(searchName);
-    //         const {Response, Search, Error} = data;
-    //         if (Response === 'True') {
-    //             // setSearchResult(JSON.stringify(Search));
-    //             setSearchResult(Search);
-    //             console.log(data)
-    //         } else {
-    //             setSearchResult([Error]);
-    //             console.log(data,'error')
-    //         }
-    //     } catch (e) {
-    //         console.log(`some error exist `, e);
-    //     }
-    // }
     const searchByType = (e: React.MouseEvent<HTMLButtonElement>) => {
         const type: string = e.currentTarget.dataset.t ? e.currentTarget.dataset.t : '';
         API.searchFilmsByType(searchName, type)
             .then(({data}) => {
-                console.log(data);
+               // console.log(data, 'searchFilmsByType');
                 const {Response, Search, Error, totalResults} = data;
                 setTotalResults(totalResults)
                 if (Response === 'True') {
@@ -59,7 +42,7 @@ const Lesson3 = () => {
     const searchByYear = () => {
         API.searchFilmByYear(searchName, year)
             .then(({data}) => {
-                console.log(data);
+            //    console.log(data, 'searchFilmByYear');
                 const {Response, Search, Error, totalResults} = data;
                 setTotalResults(totalResults)
                 if (Response === 'True') {
@@ -70,10 +53,12 @@ const Lesson3 = () => {
                 }
             })
     }
+
     const onPageChanged = (page: number) => {
         let pageToString = String(page)
         API.searchFilmsPage(searchName, pageToString)
             .then(({data}) => {
+             //   console.log(data, 'searchFilmsPage');
                 const {Response, Search, Error, totalResults} = data;
                 setTotalResults(totalResults)
                 if (Response === 'True') {
@@ -83,11 +68,7 @@ const Lesson3 = () => {
                 }
             })
     }
-    let pagesCount = Math.ceil((+totalResults) / 10)
-    let pages = [];
-    for (let i = 1; i <= pagesCount; i++) {
-        pages.push(i);
-    }
+
 
     return (
         <div className={'mainContainer'}>
@@ -116,17 +97,10 @@ const Lesson3 = () => {
                 </div>
                 <br/>
                 <div>
-                    {
-                        pages.map((p, index) => {
-                            return <span
-                                key={index}
-                                onClick={(e: MouseEvent<HTMLInputElement>) => {
-                                    onPageChanged(p)
-                                }}
-                            >{p}</span>
-
-                        })
-                    }
+                    <Pagination
+                        totalResults={totalResults}
+                        onPageChanged={onPageChanged}
+                    />
                 </div>
 
             </div>
